@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 align="center">Current Interests</h1>
+<ul class="list-group list-group-flush" id="notes">
+  {% for interest in user.interests %}
+  <li class="list-group-item">
+    {{ interest.name }}
+    <button type="button" class="close" onClick="deleteInterest({{ interest.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+
+<h1 align="center">Add a New One</h1>
+
+{#<form method="POST">#}
+{#  <textarea name="note" id="note" class="form-control"></textarea>#}
+{#  <br />#}
+{#  <div align="center">#}
+{#    <button type="submit" class="btn btn-primary">Add Note</button>#}
+{#  </div>#}
+{#</form>#}
+{% endblock %}
