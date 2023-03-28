@@ -5,7 +5,7 @@ from sqlalchemy.sql import func
 
 class Interest(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), unique=True)
+    name = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 

@@ -27,16 +27,24 @@ def settings():
 @login_required
 def interests():
     if request.method == 'POST':
-        return render_template("interests.html", user=current_user)
+        interest = request.form.get('interest')  # Gets the note from the HTML
+
+        new_interest = Interest(name=interest, user_id=current_user.id)  # providing the schema for the note
+        db.session.add(new_interest)  # adding the note to the database
+        db.session.commit()
+        flash('Interest added!', category='success')
     return render_template("interests.html", user=current_user)
 
 
 @views.route('/delete-interest', methods=['POST'])
-def delete_note():
+def delete_interest():
+    print("here")
     interest = json.loads(request.data) # this function expects a JSON from the INDEX.js file
     interestId = interest['interestId']
     note = Interest.query.get(interestId)
+    print("here")
     if note:
+        print("here")
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
