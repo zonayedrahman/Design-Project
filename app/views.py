@@ -38,13 +38,10 @@ def interests():
 
 @views.route('/delete-interest', methods=['POST'])
 def delete_interest():
-    print("here")
     interest = json.loads(request.data) # this function expects a JSON from the INDEX.js file
     interestId = interest['interestId']
     note = Interest.query.get(interestId)
-    print("here")
     if note:
-        print("here")
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
