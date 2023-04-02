@@ -27,13 +27,21 @@ def settings():
 @login_required
 def interests():
     if request.method == 'POST':
-        interest = request.form.get('interest')  # Gets the note from the HTML
+        interest = request.form.get('interest_menu')  # Gets the new interest from the HTML
 
         new_interest = Interest(name=interest, user_id=current_user.id)  # providing the schema for the note
         db.session.add(new_interest)  # adding the note to the database
         db.session.commit()
         flash('Interest added!', category='success')
-    return render_template("interests.html", user=current_user)
+
+    f = open(r'C:\Users\Zonayed\Documents\GitHub\Design-Project\app\static\hobbies.txt')
+
+    try:
+        # do stuff with f
+        dic = f.readlines()
+    finally:
+        f.close()
+    return render_template("interests.html", user=current_user, hobbies=dic)
 
 
 @views.route('/delete-interest', methods=['POST'])

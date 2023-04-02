@@ -22,10 +22,29 @@
 <h5 align="center">Add a New One</h5>
 
 <form method="POST">
-  <textarea name="interest" id="interest" class="form-control"></textarea>
-  <br />
-  <div align="center">
+    <select name="interest_menu">
+    {% for hobby in hobbies %}
+        <option value="{{ hobby }}">{{ hobby }}</option>
+    {% endfor %}
+ </select>
+    <div align="center">
     <button type="submit" class="btn btn-primary">Add</button>
   </div>
 </form>
+
+<div id="myData"></div>
+  {% block javascript %}
+    <script type="text/javascript">
+        function deleteInterest(interestId) {
+          fetch("/delete-interest", {
+            method: "POST",
+            body: JSON.stringify({ interestId: interestId }),
+          }).then((_res) => {
+            window.location.href = "/interests";
+          });
+        }
+    </script>
+
+    {% endblock %}
+
 {% endblock %}
