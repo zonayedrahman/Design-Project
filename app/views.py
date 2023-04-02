@@ -34,7 +34,7 @@ def interests():
         db.session.commit()
         flash('Interest added!', category='success')
 
-    f = open(r'C:\Users\Zonayed\Documents\GitHub\Design-Project\app\static\hobbies.txt')
+    f = open(r'app/static/hobbies.txt')
 
     try:
         # do stuff with f
