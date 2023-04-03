@@ -21,7 +21,7 @@
     <br>
 <h5 align="center">Add a New One</h5>
 
-<form method="POST">
+<!-- <form method="POST">
     <select name="interest_menu">
     {% for hobby in hobbies %}
         <option value="{{ hobby }}">{{ hobby }}</option>
@@ -30,7 +30,13 @@
     <div align="center">
     <button type="submit" class="btn btn-primary">Add</button>
   </div>
+</form> -->
+<form method="POST">
+<select id="locality-dropdown" name="locality" multiple="multiple">
+</select>
+<button id="locality-but">Submit</button>
 </form>
+<script src="interests.js"></script>
 
 <div id="myData"></div>
   {% block javascript %}
