@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect
 from flask_login import login_required, current_user
-from .models import Interest
+from .models import Interest, User
 from . import db
 import json
 
@@ -19,8 +19,20 @@ def home():
 @login_required
 def settings():
     if request.method == 'POST':
-        return render_template("settings.html", user=current_user)
-    return render_template("settings.html", user=current_user)
+        user = User.query.filter_by(id=current_user.id).first()
+        updated_values_dict = request.form.to_dict()
+        for k, v in updated_values_dict.items():
+            if v.rstrip() != "":
+                setattr(
+                    user,
+                    k.split('update_', 1)[-1],
+                    v.rstrip(),
+                )
+        db.session.commit()
+        return redirect(url_for('views.settings'))
+
+    user_details = current_user.user_variables()
+    return render_template("settings.html", user=current_user, user_details=user_details)
 
 
 @views.route('/interests', methods=['GET', 'POST'])
@@ -46,7 +58,7 @@ def interests():
 
 @views.route('/delete-interest', methods=['POST'])
 def delete_interest():
-    interest = json.loads(request.data) # this function expects a JSON from the INDEX.js file
+    interest = json.loads(request.data)  # this function expects a JSON from the INDEX.js file
     interestId = interest['interestId']
     note = Interest.query.get(interestId)
     if note:
@@ -55,3 +67,5 @@ def delete_interest():
             db.session.commit()
 
     return jsonify({})
+
+
